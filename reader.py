@@ -22,7 +22,6 @@ if __name__ == "__main__":
         os.makedirs(out_dir)
 
     files = [x for x in os.listdir(in_dir) if x.endswith(".enc")]
-    print(files)
     for file in files:
         csv_filename = os.path.join(out_dir, file.split(".enc")[0]).split(".gz")[0]
         print(file)

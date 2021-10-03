@@ -1,3 +1,4 @@
 *.enc
 *.csv
+*.gz
 __pycache__

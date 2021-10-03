@@ -28,7 +28,7 @@ def write_columns_to_csv(rows, filename):
 """
 Compress and encrypt all data files
 """
-def process_batch(batch_rows: List[float], start_time: datetime, end_time: datetime):
+def process_batch(batch_rows: List[float], start_time: datetime, end_time: datetime, keep_intermediaries=False):
     csv_name = os.path.join(batch_dir, f"{start_time}-{end_time}.csv")
     print(csv_name)
     compressed_csv_name = f"{csv_name}.gz"
@@ -42,8 +42,11 @@ def process_batch(batch_rows: List[float], start_time: datetime, end_time: datet
     e = Encryption()
     e.encrypt_file(compressed_csv_name, out_filename=encrypted_name)
 
-    os.remove(csv_name)
-    os.remove(compressed_csv_name)
+    if not keep_intermediaries:
+        os.remove(csv_name)
+        os.remove(compressed_csv_name)
+    
+    return encrypted_name
 
 def main():
 

@@ -2,6 +2,15 @@ import os
 from encryption import Encryption
 from compression import Compression
 
+"""
+Decrypts and decompresses file
+"""
+def readfile(e: Encryption, c: Compression, in_filename, out_filename):
+    compressed_filename = in_filename.split(".enc")[0]
+    e.decrypt_file(in_filename, compressed_filename)
+    c.decompress_file(compressed_filename, out_filename)
+    os.remove(compressed_filename)
+
 if __name__ == "__main__":
     e = Encryption()
     c = Compression()
@@ -15,11 +24,6 @@ if __name__ == "__main__":
     files = [x for x in os.listdir(in_dir) if x.endswith(".enc")]
     print(files)
     for file in files:
-        compressed_filename = os.path.join(out_dir, file.split(".enc")[0])
-        print(compressed_filename)
-        csv_filename = compressed_filename.split(".gz")[0]
-        print(csv_filename)
-        
-        e.decrypt_file(os.path.join(in_dir, file), compressed_filename, password="pass")
-        c.decompress_file(compressed_filename, csv_filename)
-        os.remove(compressed_filename)
+        csv_filename = os.path.join(out_dir, file.split(".enc")[0]).split(".gz")[0]
+        print(file)
+        readfile(e, c, os.path.join(in_dir, file), csv_filename)

@@ -40,7 +40,7 @@ def process_batch(batch_rows: List[float], start_time: datetime, end_time: datet
     c.compress_file(csv_name, compressed_csv_name)
     
     e = Encryption()
-    e.encrypt_file(compressed_csv_name, out_filename=encrypted_name, password="pass")
+    e.encrypt_file(compressed_csv_name, out_filename=encrypted_name)
 
     os.remove(csv_name)
     os.remove(compressed_csv_name)

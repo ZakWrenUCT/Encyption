@@ -1,3 +1,4 @@
+from ast import Str
 from datetime import datetime, timedelta
 from data_source import CSVDataSource
 from main import process_batch
@@ -61,3 +62,8 @@ if __name__ == "__main__":
         print("Files match")
     else:
         print("Files don't match")
+
+    oriSize = os.path.getsize(csv_filename)
+    compSize = os.path.getsize(encrypted_filename)
+    compRatio = str(round(oriSize/compSize, 2))+":1"
+    print(compRatio)

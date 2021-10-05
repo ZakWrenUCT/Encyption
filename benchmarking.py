@@ -37,6 +37,7 @@ class Benchmarking:
         end = time()
         elapsed = end-start
         Benchmarking.log("End Program", Benchmarking.secondsToStr(elapsed))
+        return elapsed
 
     def endlogThrow():
         global start

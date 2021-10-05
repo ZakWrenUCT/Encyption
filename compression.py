@@ -18,4 +18,5 @@ class Compression:
 
 if __name__ == "__main__":
     c = Compression()
-    c.compress_file("")
+    c.compress_file("sample_data.csv", "sample_data.csv.gz")
+    

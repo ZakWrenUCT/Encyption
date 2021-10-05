@@ -20,7 +20,7 @@ class CSVDataSource(DataSource):
         self.length = len(self.lines)
 
     def next(self):
-        line = [float(x) for x in self.lines[self.current_line % self.length].split(" ")[1:] if x != "\n"]
+        line = [float(x) for x in self.lines[self.current_line % self.length].strip().split(" ")[1:] if x != "\n"]
         self.current_line += 1
         return line
 

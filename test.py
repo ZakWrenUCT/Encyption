@@ -21,6 +21,7 @@ def test_overall():
 
     encrypted_filename = process_batch(
         batch_rows=batch_rows,
+        column_names=data_source.get_column_names(),
         start_time=current_time,
         end_time=current_time + timedelta(seconds=10*9),
         keep_intermediaries=True

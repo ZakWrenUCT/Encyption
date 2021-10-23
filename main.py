@@ -52,7 +52,7 @@ def main():
 
     last_batch_time = datetime.utcnow()
     batching_interval = timedelta(seconds=2)
-    if os.environ.get("DEBUG", "false").lower() == "true":
+    if os.environ.get("DEBUG", "false").lower() != "true":
         data_source = IMUDataSource()
     else:
         data_source = CSVDataSource("sample_data.csv")
@@ -65,7 +65,7 @@ def main():
         batch_rows.append(data)
         
         if current_time - last_batch_time > batching_interval:
-            process_batch(batch_rows, data_source.get_column_names(), start_time=last_batch_time, end_time=current_time)
+            process_batch(batch_rows, data_source.get_column_names(), start_time=last_batch_time, end_time=current_time, keep_intermediaries=True)
             batch_rows = []
             last_batch_time = current_time
         

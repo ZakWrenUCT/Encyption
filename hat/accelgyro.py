@@ -442,11 +442,10 @@ class ICM20948(object):
 
 
 # if __name__ == '__main__':
-def getGyro():
+def getGyro(icm20948):
     import time
     # print("\nSense HAT Test Program ...\n")
     # MotionVal = [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
-    icm20948 = ICM20948()
     icm20948.icm20948_Gyro_Accel_Read()
     icm20948.icm20948MagRead()
     icm20948.icm20948CalAvgValue()

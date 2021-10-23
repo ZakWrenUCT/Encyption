@@ -1,6 +1,6 @@
 
 from time import sleep
-from hat.accelgyro import getGyro
+from hat.accelgyro import getGyro, ICM20948
 from hat.tempHumidity import getTemp
 from hat.pressure import getPressure
 import csv
@@ -34,7 +34,7 @@ class CSVDataSource(DataSource):
 class IMUDataSource(DataSource):
     # TODO: Implement fetching columns from IMU
     def __init__(self):
-        pass
+        self.icm20948 = ICM20948()
 
     def column_names():
         # TODO: Return column names in order
@@ -46,8 +46,6 @@ class IMUDataSource(DataSource):
         pressureVals = getPressure()
         # print(gyroVals)
         results = []
-        # add time
-        results.append(str(datetime.utcnow()))
         # add magvals
         for i in range(0, len(gyroVals[0])):
             results.append(str(gyroVals[0][i]))

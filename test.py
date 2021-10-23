@@ -69,7 +69,7 @@ def benchmark_compression():
             data.insert(0, current_time + timedelta(seconds=0.1*i))
             batch_rows.append(data)
         
-        write_columns_to_csv(batch_rows, "test.csv")
+        write_columns_to_csv(batch_rows, data_source.get_column_names(), "test.csv")
         
         in_filename = "test.csv"
         out_filename = f"{in_filename}.gz"
@@ -115,7 +115,7 @@ def benchmark_processing():
             data.insert(0, current_time + timedelta(seconds=0.1*i))
             batch_rows.append(data)
         
-        write_columns_to_csv(batch_rows, "test.csv")
+        write_columns_to_csv(batch_rows, data_source.get_column_names(), "test.csv")
         
         in_filename = "test.csv"
         out_filename = f"{in_filename}.gz"

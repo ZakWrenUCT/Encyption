@@ -7,7 +7,7 @@ import csv
 from datetime import datetime
 
 class DataSource:
-    def get_column_names():
+    def get_column_names(self):
         return  ("Time", "MagX", "MagY", "MagZ", "AccX", "AccY", "AccZ", "GyroX", 
                 "GyroY", "GyroZ", "Temp", "Pres", "Yaw", "Pitch", "Roll", "DCM1", "DCM2", 
                 "DCM3", "DCM4", "DCM5", "DCM6", "DCM7", "DCM8", "DCM9", "MagNED1", "MagNED2", 

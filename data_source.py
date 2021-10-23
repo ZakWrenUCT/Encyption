@@ -41,7 +41,7 @@ class IMUDataSource(DataSource):
         pass
 
     def next(self):
-        gyroVals = getGyro()
+        gyroVals = getGyro(self.icm20948)
         tempVals = getTemp()
         pressureVals = getPressure()
         # print(gyroVals)

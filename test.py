@@ -1,6 +1,6 @@
 from ast import Str
 from datetime import datetime, timedelta
-from data_source import CSVDataSource
+from data_source import CSVDataSource, IMUDataSource
 from main import process_batch, write_columns_to_csv
 from reader import readfile
 from encryption import Encryption
@@ -8,6 +8,8 @@ from compression import Compression
 from benchmarking import Benchmarking
 import subprocess
 import os
+from time import sleep
+
 
 def test_overall():
     current_time = datetime.utcnow()
@@ -53,6 +55,7 @@ def test_overall():
     compRatio = str(round(oriSize/compSize, 2))+":1"
     print(compRatio)
 
+
 def benchmark_compression():
     c = Compression()
 
@@ -68,9 +71,10 @@ def benchmark_compression():
             data = data_source.next()
             data.insert(0, current_time + timedelta(seconds=0.1*i))
             batch_rows.append(data)
-        
-        write_columns_to_csv(batch_rows, data_source.get_column_names(), "test.csv")
-        
+
+        write_columns_to_csv(
+            batch_rows, data_source.get_column_names(), "test.csv")
+
         in_filename = "test.csv"
         out_filename = f"{in_filename}.gz"
         data_duration = timedelta(seconds=0.1*row_count)
@@ -97,7 +101,6 @@ def benchmark_compression():
         print(",".join([str(x) for x in b]))
 
 
-
 def benchmark_processing():
     c = Compression()
     e = Encryption()
@@ -114,9 +117,10 @@ def benchmark_processing():
             data = data_source.next()
             data.insert(0, current_time + timedelta(seconds=0.1*i))
             batch_rows.append(data)
-        
-        write_columns_to_csv(batch_rows, data_source.get_column_names(), "test.csv")
-        
+
+        write_columns_to_csv(
+            batch_rows, data_source.get_column_names(), "test.csv")
+
         in_filename = "test.csv"
         out_filename = f"{in_filename}.gz"
         enc_filename = f"{out_filename}.enc"
@@ -144,7 +148,8 @@ def benchmark_processing():
         compRatio = str(round(oriSize/compSize, 2))
         print("Compression ratio:", compRatio)
 
-        benchmarks.append((data_duration, t_compression, compRatio, t_encryption, t_decryption, t_decompression))
+        benchmarks.append((data_duration, t_compression, compRatio,
+                          t_encryption, t_decryption, t_decompression))
 
         os.remove(in_filename)
         os.remove(out_filename)
@@ -156,5 +161,19 @@ def benchmark_processing():
         for b in benchmarks:
             print(",".join([str(x) for x in b]))
 
+
 if __name__ == "__main__":
-    benchmark_processing()
+    while(True):
+        inputObj = input("Enter b for benchmark, or r for readings:\n")
+        if inputObj == "b":
+            benchmark_processing()
+        elif inputObj == "r":
+            k = 0
+            while k < 25:
+                data_source = IMUDataSource()
+                data = ",".join(data_source.next())
+                print(data)
+                sleep(1)
+                k += 1
+        else:
+            print("invalid command")

@@ -36,9 +36,10 @@ class IMUDataSource(DataSource):
     def __init__(self):
         self.icm20948 = ICM20948()
 
-    def column_names():
-        # TODO: Return column names in order
-        pass
+    def get_column_names():
+        return ("Time", "MagX", "MagY", "MagZ", "AccX", "AccY", "AccZ", "GyroX",
+                "GyroY", "GyroZ", "Temp", "Pres", "Yaw", "Pitch", "Roll")
+
 
     def next(self):
         gyroVals = getGyro(self.icm20948)
@@ -64,6 +65,7 @@ class IMUDataSource(DataSource):
             results.append(str(gyroVals[3][i]))
         # print(results)
         return results
+
 
 if __name__ == "__main__":
     data_source = CSVDataSource("sample_data.csv")

@@ -2,7 +2,7 @@
 import time
 from datetime import datetime, timedelta
 from typing import List
-from data_source import CSVDataSource, IMUDataSource
+from data_source import CSVDataSource
 import os
 import csv
 from encryption import Encryption
@@ -53,6 +53,7 @@ def main():
     last_batch_time = datetime.utcnow()
     batching_interval = timedelta(seconds=2)
     if os.environ.get("DEBUG", "false").lower() != "true":
+        from imu_data_source import IMUDataSource
         data_source = IMUDataSource()
     else:
         data_source = CSVDataSource("sample_data.csv")
@@ -70,7 +71,7 @@ def main():
             last_batch_time = current_time
         
         print(current_time - last_batch_time)
-        time.sleep(0.1)
+        time.sleep(0.1) # TODO: Get sampling rate from environment variable
 
 
 if __name__ == "__main__":

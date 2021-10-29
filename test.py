@@ -9,6 +9,8 @@ from benchmarking import Benchmarking
 import subprocess
 import os
 from time import sleep
+import numpy as np
+import matplotlib.pyplot as plt
 
 
 def test_overall():
@@ -162,18 +164,65 @@ def benchmark_processing():
             print(",".join([str(x) for x in b]))
 
 
+def testRead(readNum, axisCount, firstIndex):
+    k = 0
+    kmax = readNum
+    x = []
+    y = []
+    z = []
+    if axisCount == 2:
+        while k < kmax:
+            data_source = IMUDataSource()
+            data = data_source.next()
+            x.append(float(data[firstIndex]))
+            y.append(float(data[firstIndex+1]))
+            z.append(float(data[firstIndex+2]))
+
+            print(kmax-k)
+            sleep(0.1)
+            k += 1
+        plt.plot(range(k), x,  label='X')
+        plt.plot(range(k), y,  label='Y')
+        plt.show()
+    elif axisCount == 3:
+        while k < kmax:
+            data_source = IMUDataSource()
+            data = data_source.next()
+            x.append(float(data[firstIndex]))
+            y.append(float(data[firstIndex+1]))
+            z.append(float(data[firstIndex+2]))
+
+            print(kmax-k)
+            sleep(0.1)
+            k += 1
+        plt.plot(range(k), x,  label='X')
+        plt.plot(range(k), y,  label='Y')
+        plt.plot(range(k), z,  label='Z')
+        plt.show()
+    else:
+        pass
+
+
 if __name__ == "__main__":
     while(True):
         inputObj = input("Enter b for benchmark, or r for readings:\n")
         if inputObj == "b":
             benchmark_processing()
         elif inputObj == "r":
-            k = 0
-            while k < 25:
-                data_source = IMUDataSource()
-                data = ",".join(data_source.next())
-                print(data)
-                sleep(1)
-                k += 1
+            inputObj = input("Number of readings to take\n")
+            readNum = int(inputObj)
+            inputObj = input("mag, acc, gyro, tempPress, roll\n")
+            if inputObj == "mag":
+                testRead(readNum, 3, 0)
+            elif inputObj == "acc":
+                testRead(readNum, 3, 3)
+            elif inputObj == "gyro":
+                testRead(readNum, 3, 6)
+            elif inputObj == "tempPress":
+                testRead(readNum, 2, 9)
+            elif inputObj == "roll":
+                testRead(readNum, 3, 11)
+            else:
+                print("not found")
         else:
             print("invalid command")

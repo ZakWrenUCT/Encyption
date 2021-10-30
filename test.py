@@ -164,41 +164,70 @@ def benchmark_processing():
             print(",".join([str(x) for x in b]))
 
 
+def addlabels(k, y):
+    for i in range(len(k)):
+        plt.text(i, y[i], y[i])
+
+
 def testRead(readNum, axisCount, firstIndex):
     k = 0
     kmax = readNum
+    plt.cla()
     x = []
     y = []
     z = []
     if axisCount == 2:
+        data_source = IMUDataSource()
+        data = data_source.next()
+        xfirst = float(data[firstIndex])
+        yfirst = float(data[firstIndex+1])
         while k < kmax:
-            data_source = IMUDataSource()
+            # data_source = IMUDataSource()
             data = data_source.next()
-            x.append(float(data[firstIndex]))
-            y.append(float(data[firstIndex+1]))
-            z.append(float(data[firstIndex+2]))
-
+            print(str(data[firstIndex])+"-"+str(xfirst))
+            print(str(data[firstIndex+1])+"-"+str(yfirst))
+            x.append(float(data[firstIndex])-xfirst)
+            y.append(float(data[firstIndex+1])-yfirst)
             print(kmax-k)
             sleep(0.1)
             k += 1
         plt.plot(range(k), x,  label='X')
         plt.plot(range(k), y,  label='Y')
-        plt.show()
+        # addlabels(x, y)
+        # plt.show()
+        time = str(datetime.utcnow()).replace(" ", "")
+        plt.savefig('images/'+time+'.png')
+        print("saved to /images/")
+        # plt.show()
     elif axisCount == 3:
+        data_source = IMUDataSource()
+        data = data_source.next()
+        xfirst = float(data[firstIndex])
+        yfirst = float(data[firstIndex+1])
+        zfirst = float(data[firstIndex+2])
         while k < kmax:
-            data_source = IMUDataSource()
+            # data_source = IMUDataSource()
             data = data_source.next()
-            x.append(float(data[firstIndex]))
-            y.append(float(data[firstIndex+1]))
-            z.append(float(data[firstIndex+2]))
+            print(str(data[firstIndex])+"-"+str(xfirst))
+            print(str(data[firstIndex+1])+"-"+str(yfirst))
+            print(str(data[firstIndex+2])+"-"+str(zfirst))
+            x.append(float(data[firstIndex])-xfirst)
+            y.append(float(data[firstIndex+1])-yfirst)
+            z.append(float(data[firstIndex+2])-zfirst)
 
             print(kmax-k)
             sleep(0.1)
             k += 1
-        plt.plot(range(k), x,  label='X')
-        plt.plot(range(k), y,  label='Y')
-        plt.plot(range(k), z,  label='Z')
-        plt.show()
+        plt.plot(range(k), x,  label="X")
+        plt.plot(range(k), y,  label="Y")
+        plt.plot(range(k), z,  label="Z")
+        # addlabels(k, x)
+        # addlabels(k, y)
+        # addlabels(k, z)
+        time = str(datetime.utcnow()).replace(" ", "")
+        plt.savefig('images/'+time+'.png')
+        print("saved to /images/")
+        # plt.show()
     else:
         pass
 

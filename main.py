@@ -70,7 +70,7 @@ def main():
             last_batch_time = current_time
         
         print(current_time - last_batch_time)
-        time.sleep(0.1)
+        # time.sleep(0.1)
 
 
 if __name__ == "__main__":
